@@ -35,26 +35,40 @@ public class Main {
             twoDecimalPlace.add(new Allocation(element.getName(), element.getPercentage().setScale(2, RoundingMode.HALF_EVEN)));
         }
 
+        BigDecimal totalPercentage1T = twoDecimalPlace.stream()
+                .map(Allocation::getPercentage) // Extract the percentage
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
         // 2nd Task
 
         List<Allocation> bigThree = descendingOrder.stream().limit(3).toList();
 
         for(Allocation element: bigThree){
-            roundUpSize.add(new Allocation(element.getName(), element.getPercentage().setScale(2, RoundingMode.HALF_UP)));
+            roundUpSize.add(new Allocation(element.getName(), element.getPercentage().setScale(3, RoundingMode.HALF_UP)));
         }
+
+        BigDecimal totalPercentage2Ta = roundUpSize.stream()
+                .map(Allocation::getPercentage) // Extract the percentage
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         List<Allocation> smallThree = ascendingOrder.stream().limit(3).toList();
 
         for(Allocation element: smallThree){
-            roundDownSize.add(new Allocation(element.getName(), element.getPercentage().setScale(2, RoundingMode.HALF_DOWN)));
+            roundDownSize.add(new Allocation(element.getName(), element.getPercentage().setScale(3, RoundingMode.HALF_DOWN)));
         }
+
+        BigDecimal totalPercentage2Tb = roundDownSize.stream()
+                .map(Allocation::getPercentage) // Extract the percentage
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
 
         System.out.println("Task 1: "+ twoDecimalPlace);
+        System.out.println("Total = " + totalPercentage1T + "\n");
 
         System.out.println("Task 2:");
         System.out.println(roundUpSize);
         System.out.println(roundDownSize);
+        System.out.println("Total = " + totalPercentage2Ta.add(totalPercentage2Tb) + "\n");
 
     }
 }
